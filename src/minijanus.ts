@@ -6,6 +6,13 @@
  * See https://janus.conf.meetecho.com/docs/rest.html#handles.
  **/
 import { v4 as uuidv4 } from "uuid";
+import {
+  JanusPluginString,
+  JanusSuccessAttachResponse,
+  JanusEvent,
+  JanusCreateRoomSuccessResponse,
+  JanusSuccessCreateResponse,
+} from "./types";
 
 class JanusPluginHandle {
   roomId: string | undefined;

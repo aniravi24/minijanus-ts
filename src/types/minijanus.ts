@@ -1,4 +1,4 @@
-interface JanusError {
+export interface JanusError {
   code:
     | 0
     | 403
@@ -27,13 +27,13 @@ interface JanusError {
   reason: string;
 }
 
-interface JanusErrorResponse {
+export interface JanusErrorResponse {
   janus: "error";
   transaction: string;
   error: JanusError;
 }
 
-interface JanusSuccessResponse {
+export interface JanusSuccessResponse {
   janus: "success";
   transaction: string;
   data: {
@@ -41,49 +41,51 @@ interface JanusSuccessResponse {
   };
 }
 
-interface JanusDestroyRequest {
+export interface JanusDestroyRequest {
   janus: "destroy";
   transaction: string;
 }
 
-interface JanusTrickle {
+export interface JanusTrickle {
   janus: "trickle";
   transaction: string;
 }
 
-interface JanusTrickleCandidate extends JanusTrickle {
+export interface JanusTrickleCandidate extends JanusTrickle {
   candidate: any;
 }
 
-interface JanusTrickleCandidates extends JanusTrickle {
+export interface JanusTrickleCandidates extends JanusTrickle {
   candidates: any[];
 }
 
-interface JanusAck {
+export interface JanusAck {
   janus: "ack";
   transaction: string;
 }
 
-interface JanusDetach {
+export interface JanusDetach {
   janus: "detach";
   transaction: string;
 }
 
-interface JanusHangup {
+export interface JanusHangup {
   janus: "hangup";
   transaction: string;
 }
 
-interface JanusCreateRoomSuccessResponse {
+export interface JanusCreateRoomSuccessResponse {
   videoroom: "created";
   room: string;
   permanent: Boolean;
 }
 
-type JanusSuccessAttachResponse = JanusSuccessResponse;
-type JanusSuccessCreateResponse = JanusSuccessResponse;
+export type JanusSuccessAttachResponse = JanusSuccessResponse;
+export type JanusSuccessCreateResponse = JanusSuccessResponse;
 
-type JanusAttachResponse = JanusSuccessAttachResponse | JanusErrorResponse;
+export type JanusAttachResponse =
+  | JanusSuccessAttachResponse
+  | JanusErrorResponse;
 
-type JanusPluginString = string;
-type JanusEvent = string;
+export type JanusPluginString = string;
+export type JanusEvent = string;
