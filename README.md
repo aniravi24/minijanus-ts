@@ -1,6 +1,6 @@
 # minijanus-ts
 
-## Built on top of the work at [Minijanus.js](https://www.npmjs.com/package/minijanus)
+Forked from [Minijanus.js](https://www.npmjs.com/package/minijanus). This adds TypeScript support, moves to Yarn and Jest from NPM and Tape, and is adding support for plugins as needed. Currently, it adds the videoroom plugin.
 
 ## Description below is from the minijanus README:
 
