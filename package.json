@@ -1,11 +1,13 @@
 {
-  "name": "minijanus",
-  "version": "0.6.2",
-  "description": "A small Javascript wrapper for talking to the Janus WebRTC signalling API.",
-  "browser": "minijanus.js",
+  "name": "minijanus-ts",
+  "version": "0.1.0",
+  "description": "A small Javascript wrapper for talking to the Janus WebRTC signaling API, Forked from minijanus.js to add typescript typings and videoroom plugin functionality (for now).",
+  "browser": "dist/minijanus.js",
+  "main": "dist/minijanus.js",
+  "types": "dist/minijanus.d.ts",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mozilla/minijanus.js.git"
+    "url": "https://github.com/aniravi24/minijanus-ts.git"
   },
   "keywords": [
     "janus",
@@ -13,17 +15,49 @@
     "webrtc"
   ],
   "author": "Marshall Quander <marshall@quander.me>",
+  "contributors": [
+    {
+      "name": "Anirudh Ravichandran",
+      "url": "https://github.com/aniravi24"
+    }
+  ],
   "license": "MPL-2.0",
   "bugs": {
-    "url": "https://github.com/mozilla/minijanus.js/issues"
+    "url": "https://github.com/aniravi24/minijanus-ts/issues"
   },
-  "homepage": "https://github.com/mozilla/minijanus.js#readme",
+  "homepage": "https://github.com/aniravi24/minijanus-ts#readme",
   "devDependencies": {
-    "browserify": "^16.2",
-    "tape": "^4.9"
+    "@commitlint/cli": "^8.3.5",
+    "@commitlint/config-conventional": "^8.3.4",
+    "@types/jest": "^25.2.1",
+    "@types/tape": "^4.2.34",
+    "@types/uuid": "^7.0.2",
+    "commitizen": "^4.0.4",
+    "cz-conventional-changelog": "^3.1.0",
+    "husky": "^4.2.3",
+    "jest": "^25.3.0",
+    "tape": "^4.13.2",
+    "ts-jest": "^25.3.1",
+    "typescript": "^3.8.3"
   },
   "scripts": {
-    "build": "browserify minijanus.js --standalone Minijanus > bundle.js",
-    "test": "tape tests.js"
-  }
+    "tsc": "tsc",
+    "test": "jest",
+    "prepublishOnly": "yarn build"
+  },
+  "husky": {
+    "hooks": {
+      "prepare-commit-msg": "exec < /dev/tty && git cz --hook",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "dependencies": {
+    "uuid": "^7.0.3"
+  },
+  "private": false
 }

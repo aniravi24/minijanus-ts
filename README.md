@@ -77,3 +77,6 @@ $ npm run build
 ```
 $ npm test
 ```
+
+## Contributions needed
+1. The types could be improved. The parameters for certain functions could be typed with sum types with all the possible combinations of requests Janus allows. They are current typed as "any" in some cases.

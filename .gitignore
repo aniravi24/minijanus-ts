@@ -1,3 +1,6 @@
+#typescript outdir
+dist/
+
 # Logs
 logs
 *.log
