@@ -31,7 +31,7 @@ Require `minijanus-ts`. It should work with ES6 (or greater) or CommonJS syntax.
 
 ```javascript
 var ws = new WebSocket("ws://localhost:8188", "janus-protocol");
-var session = new JanusPluginSession(ws.send.bind(ws));
+var session = new JanusSession(ws.send.bind(ws));
 var handle = new JanusPluginHandle(session);
 var conn = new RTCPeerConnection({});
 
