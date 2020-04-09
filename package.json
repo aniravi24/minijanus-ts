@@ -1,10 +1,11 @@
 {
   "name": "minijanus-ts",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A small Javascript wrapper for talking to the Janus WebRTC signaling API. Forked from minijanus.js to add TS support and additional functionality.",
   "browser": "dist/minijanus.js",
   "main": "dist/minijanus.js",
   "types": "dist/minijanus.d.ts",
+  "module": "./dist/minijanus.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/aniravi24/minijanus-ts.git"
@@ -43,6 +44,7 @@
   "scripts": {
     "build": "tsc",
     "test": "jest",
+    "clean": "rm -rf dist/",
     "prepublishOnly": "yarn build"
   },
   "husky": {
