@@ -1,7 +1,8 @@
-# minijanus.js
+# minijanus-ts
 
-[![npm](https://img.shields.io/npm/v/minijanus.svg)](https://www.npmjs.com/package/minijanus)
-[![Build Status](https://travis-ci.org/mozilla/minijanus.js.svg?branch=master)](https://travis-ci.org/mozilla/minijanus.js)
+## Built on top of the work at [Minijanus.js](https://www.npmjs.com/package/minijanus)
+
+## Description below is from the minijanus README:
 
 A super-simplistic and -minimal wrapper for talking to the [Janus signalling API][api-docs]. Developed for use with
 Janus as a web game networking backend via [janus-plugin-sfu][], but fundamentally plugin-agnostic. Designed to
@@ -26,7 +27,7 @@ If you want a similar but moderately more featureful wrapper, check out [minnie-
 
 ## Example
 
-Require `minijanus` in Node, or link to bundle.js in a browser. Then:
+Require `minijanus-ts`. It should work with ES6 (or greater) or CommonJS syntax.
 
 ```javascript
 var ws = new WebSocket("ws://localhost:8188", "janus-protocol");
@@ -66,16 +67,14 @@ would instead wait to create the connection until the microphone permission was 
 
 ## Building
 
-To generate bundle.js:
-
 ```
-$ npm run build
+$ yarn tsc
 ```
 
 ## Testing
 
 ```
-$ npm test
+$ yarn test
 ```
 
 ## Contributions needed
