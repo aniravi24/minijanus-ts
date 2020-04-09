@@ -68,7 +68,7 @@ would instead wait to create the connection until the microphone permission was 
 ## Building
 
 ```
-$ yarn tsc
+$ yarn build
 ```
 
 ## Testing

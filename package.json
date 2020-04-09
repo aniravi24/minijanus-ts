@@ -41,7 +41,7 @@
     "typescript": "^3.8.3"
   },
   "scripts": {
-    "tsc": "tsc",
+    "build": "tsc",
     "test": "jest",
     "prepublishOnly": "yarn build"
   },
