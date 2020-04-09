@@ -82,8 +82,8 @@ class JanusPluginHandle {
   }
 
   /** Sends a JSEP offer or answer associated with this handle. **/
-  sendJsep(jsep: any) {
-    return this.send("message", { body: { request: "publish" }, jsep: jsep });
+  sendJsep(jsep: any, body?: any) {
+    return this.send("message", { body: body ? body : {}, jsep: jsep });
   }
 
   /** Sends an ICE trickle candidate associated with this handle. **/
