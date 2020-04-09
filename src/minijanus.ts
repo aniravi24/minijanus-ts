@@ -72,7 +72,7 @@ class JanusPluginHandle {
 
   async createRoom() {
     const resp = await this.send("message", { body: { request: "create" } });
-    this.roomId = (resp as JanusCreateRoomSuccessResponse).room;
+    this.roomId = (resp as JanusCreateRoomSuccessResponse).plugindata.data.room;
   }
 
   joinPublisher() {
@@ -87,7 +87,10 @@ class JanusPluginHandle {
   }
 
   /** Sends an ICE trickle candidate associated with this handle. **/
-  sendTrickle(candidate: any) {
+  sendTrickle(candidate: any | any[]) {
+    if (candidate instanceof Array) {
+      return this.send("trickle", { candidates: candidate });
+    }
     return this.send("trickle", { candidate: candidate });
   }
 }
@@ -108,7 +111,7 @@ class JanusSession {
   options: any;
   keepaliveTimeout?: NodeJS.Timeout;
 
-  constructor(output: any, options: any) {
+  constructor(output: any, options?: any) {
     this.output = output;
     this.id = undefined;
     this.nextTxId = uuidv4();

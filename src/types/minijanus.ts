@@ -75,9 +75,13 @@ export interface JanusHangup {
 }
 
 export interface JanusCreateRoomSuccessResponse {
-  videoroom: "created";
-  room: string;
-  permanent: Boolean;
+  plugindata: {
+    data: {
+      videoroom: "created";
+      room: string;
+      permanent: Boolean;
+    };
+  };
 }
 
 export type JanusSuccessAttachResponse = JanusSuccessResponse;
