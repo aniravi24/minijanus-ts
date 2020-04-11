@@ -115,7 +115,6 @@ class JanusPluginHandle {
 class JanusSession {
   output: any;
   id: string | undefined;
-  nextTxId: string;
   txns: any;
   eventHandlers: any;
   options: any;
@@ -124,7 +123,6 @@ class JanusSession {
   constructor(output: any, options?: any) {
     this.output = output;
     this.id = undefined;
-    this.nextTxId = uuidv4();
     this.txns = {};
     this.eventHandlers = {};
     this.options = Object.assign(
@@ -139,9 +137,7 @@ class JanusSession {
 
   toJSON() {
     return {
-      output: this.output,
       id: this.id,
-      nextTxId: this.nextTxId,
       options: this.options,
     };
   }
