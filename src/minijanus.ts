@@ -18,17 +18,20 @@ class JanusPluginHandle {
   roomId: string | undefined;
   id: string | number | undefined;
   session: JanusSession;
+  feedId: string | number | undefined;
 
   constructor(session: JanusSession) {
     this.session = session;
     this.id = undefined;
     this.roomId = undefined;
+    this.feedId = undefined;
   }
 
   toJSON() {
     return {
       roomId: this.roomId,
       id: this.id,
+      feedId: this.feedId,
     };
   }
 
