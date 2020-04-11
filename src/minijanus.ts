@@ -14,7 +14,7 @@ import {
   JanusSuccessCreateResponse,
 } from "./types";
 
-class JanusPluginHandle {
+export class JanusPluginHandle {
   roomId: string | undefined;
   id: string | number | undefined;
   session: JanusSession;
@@ -112,7 +112,7 @@ class JanusPluginHandle {
  * See https://janus.conf.meetecho.com/docs/rest.html#sessions.
  **/
 
-class JanusSession {
+export class JanusSession {
   output: any;
   id: string | undefined;
   txns: any;
@@ -340,5 +340,3 @@ class JanusSession {
     }
   }
 }
-
-export = { JanusPluginHandle, JanusSession };

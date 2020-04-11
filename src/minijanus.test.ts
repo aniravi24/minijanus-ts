@@ -1,11 +1,11 @@
-import mj from "./minijanus";
+import { JanusSession, JanusPluginHandle } from "./minijanus";
 
 test("events are detected and matched to handles", function (done) {
-  var session = new mj.JanusSession((_signal: any) => {}, {
+  var session = new JanusSession((_signal: any) => {}, {
     keepaliveMs: null,
   });
   var handles = [0, 1, 2].map((i) => {
-    var h = new mj.JanusPluginHandle(session);
+    var h = new JanusPluginHandle(session);
     h.id = i;
     return h;
   });
@@ -33,7 +33,7 @@ test("events are detected and matched to handles", function (done) {
 });
 
 test("transactions are detected and matched up", function (done) {
-  var session = new mj.JanusSession((_signal: any) => {}, {
+  var session = new JanusSession((_signal: any) => {}, {
     keepaliveMs: null,
   });
 
@@ -74,7 +74,7 @@ test("transactions are detected and matched up", function (done) {
 });
 
 test("transaction timeouts happen", function (done) {
-  var session = new mj.JanusSession((_signal: any) => {}, {
+  var session = new JanusSession((_signal: any) => {}, {
     timeoutMs: 5,
     keepaliveMs: null,
   });
@@ -122,7 +122,7 @@ test("transaction timeouts happen", function (done) {
 });
 
 test("session transactions are properly disposed of", function (done) {
-  var session = new mj.JanusSession((_signal: any) => {}, {
+  var session = new JanusSession((_signal: any) => {}, {
     timeoutMs: 5,
     keepaliveMs: null,
   });
