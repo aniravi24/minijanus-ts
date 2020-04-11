@@ -25,6 +25,13 @@ class JanusPluginHandle {
     this.roomId = undefined;
   }
 
+  toJSON() {
+    return {
+      roomId: this.roomId,
+      id: this.id,
+    };
+  }
+
   /** Attaches this handle to the Janus server and sets its ID. **/
   async attach(plugin: JanusPluginString) {
     var payload = {
@@ -125,6 +132,15 @@ class JanusSession {
       },
       options
     );
+  }
+
+  toJSON() {
+    return {
+      output: this.output,
+      id: this.id,
+      nextTxId: this.nextTxId,
+      options: this.options,
+    };
   }
 
   /** Creates this session on the Janus server and sets its ID. **/
