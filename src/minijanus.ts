@@ -288,7 +288,7 @@ export class JanusSession {
     }
 
     this.output(JSON.stringify(signal));
-    this._resetKeepalive();
+    this.resetKeepalive();
   }
 
   private _logOutgoing(signal: {
@@ -329,7 +329,7 @@ export class JanusSession {
     if (this.keepaliveTimeout) clearTimeout(this.keepaliveTimeout);
   }
 
-  private _resetKeepalive() {
+  resetKeepalive() {
     this._killKeepalive();
     if (this.options.keepaliveMs) {
       this.keepaliveTimeout = setTimeout(() => {
