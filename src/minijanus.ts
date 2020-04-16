@@ -47,6 +47,11 @@ export class JanusPluginHandle {
     return resp;
   }
 
+  /** Janus usually will automatically handle this, but the client can send a hangup event */
+  hangup() {
+    return this.send("hangup");
+  }
+
   /** Detaches this handle. **/
   detach() {
     return this.send("detach");
@@ -80,11 +85,12 @@ export class JanusPluginHandle {
     return this.send("message", { body: body });
   }
 
+  /** For Janus videoroom plugin, create a room */
   async createRoom() {
     const resp = await this.send("message", { body: { request: "create" } });
     this.roomId = (resp as JanusCreateRoomSuccessResponse).plugindata.data.room;
   }
-
+  /** For Janus videoroom plugin, join as a publisher (as in, a client streaming media into the room) */
   joinPublisher() {
     return this.send("message", {
       body: { request: "join", ptype: "publisher", room: this.roomId },

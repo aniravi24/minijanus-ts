@@ -1,6 +1,6 @@
 {
   "name": "minijanus-ts",
-  "version": "0.3.4",
+  "version": "0.3.5",
   "description": "A small Javascript wrapper for talking to the Janus WebRTC signaling API. Forked from minijanus.js to add TS support and additional functionality.",
   "browser": "dist/minijanus.js",
   "main": "dist/minijanus.js",
