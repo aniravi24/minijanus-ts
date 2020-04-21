@@ -256,7 +256,10 @@ export class JanusSession {
    * timeout.
    **/
   send(type: JanusEvent, signal?: any) {
-    signal = Object.assign({ transaction: uuidv4() }, signal);
+    signal = Object.assign(
+      { transaction: uuidv4(), apisecret: this.options.apisecret },
+      signal
+    );
     return new Promise((resolve, reject) => {
       var timeout = null;
       if (this.options.timeoutMs) {
