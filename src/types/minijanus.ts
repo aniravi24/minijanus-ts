@@ -1,31 +1,36 @@
 export interface JanusError {
-  code:
-    | 0
-    | 403
-    | 405
-    | 490
-    | 450
-    | 452
-    | 453
-    | 454
-    | 455
-    | 456
-    | 457
-    | 460
-    | 461
-    | 462
-    | 463
-    | 464
-    | 465
-    | 466
-    | 467
-    | 468
-    | 469
-    | 470
-    | 471
-    | 472;
+  // an error could contain many other things, not typed yet
+  [x: string]: any;
+  code: JanusErrorCode;
   reason: string;
 }
+
+export type JanusErrorCode =
+  | 0
+  | 403
+  | 405
+  | 490
+  | 450
+  | 452
+  | 453
+  | 454
+  | 455
+  | 456
+  | 457
+  | 458
+  | 460
+  | 461
+  | 462
+  | 463
+  | 464
+  | 465
+  | 466
+  | 467
+  | 468
+  | 469
+  | 470
+  | 471
+  | 472;
 
 export interface JanusErrorResponse {
   janus: "error";

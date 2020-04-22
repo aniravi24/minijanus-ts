@@ -12,7 +12,9 @@ import {
   JanusEvent,
   JanusCreateRoomSuccessResponse,
   JanusSuccessCreateResponse,
+  JanusErrorResponse,
 } from "./types";
+import { logger } from "./utils";
 
 export class JanusPluginHandle {
   roomId: string | undefined;
@@ -212,7 +214,7 @@ export class JanusSession {
       this._logIncoming(signal);
     }
     if (signal.session_id != this.id) {
-      console.warn(
+      logger.warn(
         "Incorrect session ID received in Janus signalling message: was " +
           signal.session_id +
           ", expected " +
@@ -315,7 +317,8 @@ export class JanusSession {
       " (#" +
       signal.transaction +
       "): ";
-    console.debug("%c" + message, "color: #040", signal);
+    logger.debug(message);
+    logger.debug(signal);
   }
 
   private _logIncoming(signal: { janus: string; transaction: string }) {
@@ -327,7 +330,8 @@ export class JanusSession {
         signal.transaction +
         "): "
       : "< Incoming Janus " + (kind || "signal") + ": ";
-    console.debug("%c" + message, "color: #004", signal);
+    logger.debug(message);
+    logger.debug(signal);
   }
 
   private _sendKeepalive() {
@@ -342,9 +346,18 @@ export class JanusSession {
     this._killKeepalive();
     if (this.options.keepaliveMs) {
       this.keepaliveTimeout = setTimeout(() => {
-        this._sendKeepalive().catch((e: Error) =>
-          console.error("Error received from keepalive: ", e)
-        );
+        this._sendKeepalive().catch((e: JanusErrorResponse) => {
+          logger.error("Error received from keepalive: " + e);
+          switch (e.error.code) {
+            // session doesn't exist
+            case 458:
+              this.dispose();
+              logger.error(
+                "Disposing non-existent session" + e.error.session_id
+              );
+              break;
+          }
+        });
       }, this.options.keepaliveMs);
     }
   }
