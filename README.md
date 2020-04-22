@@ -2,6 +2,12 @@
 
 Forked from [Minijanus.js](https://github.com/mozilla/minijanus.js). This is rebuilt with TypeScript first, moves to Yarn and Jest from NPM and Tape, and is adding support for plugins as needed. Currently, it adds the videoroom plugin. I would like to improve the documentation further as I've added a few more features, but haven't gotten around to it yet.
 
+## Install
+NPM
+`npm install minijanus-ts`
+YARN
+`yarn add minijanus-ts`
+
 ## Description below is from the minijanus README:
 
 A super-simplistic and -minimal wrapper for talking to the [Janus signalling API][api-docs]. Developed for use with
