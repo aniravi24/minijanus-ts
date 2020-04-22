@@ -317,8 +317,7 @@ export class JanusSession {
       " (#" +
       signal.transaction +
       "): ";
-    logger.debug(message);
-    logger.debug(signal);
+    logger.debug("%c" + message, "color: #040", signal);
   }
 
   private _logIncoming(signal: { janus: string; transaction: string }) {
@@ -330,8 +329,7 @@ export class JanusSession {
         signal.transaction +
         "): "
       : "< Incoming Janus " + (kind || "signal") + ": ";
-    logger.debug(message);
-    logger.debug(signal);
+    logger.debug("%c" + message, "color: #004", signal);
   }
 
   private _sendKeepalive() {
@@ -347,14 +345,12 @@ export class JanusSession {
     if (this.options.keepaliveMs) {
       this.keepaliveTimeout = setTimeout(() => {
         this._sendKeepalive().catch((e: JanusErrorResponse) => {
-          logger.error("Error received from keepalive: " + e);
+          logger.error("Error received from keepalive: %o", e);
           switch (e.error.code) {
             // session doesn't exist
             case 458:
               this.dispose();
-              logger.error(
-                "Disposing non-existent session" + e.error.session_id
-              );
+              logger.error("Disposing non-existent session", e.session_id);
               break;
           }
         });

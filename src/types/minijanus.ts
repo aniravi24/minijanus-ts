@@ -33,6 +33,8 @@ export type JanusErrorCode =
   | 472;
 
 export interface JanusErrorResponse {
+  // an error could contain many other things, not typed yet
+  [x: string]: any;
   janus: "error";
   transaction: string;
   error: JanusError;

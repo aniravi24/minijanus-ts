@@ -1,46 +1,35 @@
 import winston from "winston";
 
+type WinstonWithSplat = {
+  log: (type: string, ...args: any[]) => void;
+};
 winston.configure({
   transports: [
     new winston.transports.Console({
-      format: winston.format.simple(),
+      format: winston.format.combine(
+        winston.format.colorize(),
+        winston.format.splat(),
+        winston.format.simple()
+      ),
       level: "silly",
     }),
   ],
 });
 
-const error = (err: any) => {
-  if (typeof err === "string") {
-    return winston.error(err);
-  }
-  winston.error(err.stack || err.message || JSON.stringify(err, null, 2));
+const error = (...args: any[]) => {
+  (winston as WinstonWithSplat).log("error", ...args);
 };
 
-const warn = (warning: any) => {
-  if (typeof warning === "string") {
-    return winston.warn(warning);
-  }
-  winston.warn(
-    warning.stack || warning.message || JSON.stringify(warning, null, 2)
-  );
+const warn = (...args: any[]) => {
+  (winston as WinstonWithSplat).log("warn", ...args);
 };
 
-const info = (information: any) => {
-  if (typeof information === "string") {
-    return winston.info(information);
-  }
-  winston.info(
-    information.stack ||
-      information.message ||
-      JSON.stringify(information, null, 2)
-  );
+const info = (...args: any[]) => {
+  (winston as WinstonWithSplat).log("info", ...args);
 };
 
-const debug = (debug: any) => {
-  if (typeof debug === "string") {
-    return winston.info(debug);
-  }
-  winston.info(debug.stack || debug.message || JSON.stringify(debug, null, 2));
+const debug = (...args: any[]) => {
+  (winston as WinstonWithSplat).log("debug", ...args);
 };
 
 export { error, warn, info, debug };
