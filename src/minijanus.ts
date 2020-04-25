@@ -160,14 +160,17 @@ export class JanusSession {
       case "warn": {
         if (this.cb) this.cb({ type: "warn", data: args });
         else console.warn(...args);
+        break;
       }
       case "debug": {
         if (this.cb) this.cb({ type: "debug", data: args });
         else console.debug(...args);
+        break;
       }
       case "error": {
         if (this.cb) this.cb({ type: "error", data: args });
         else console.error(...args);
+        break;
       }
     }
   }
