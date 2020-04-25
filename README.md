@@ -2,8 +2,6 @@
 
 Forked from [Minijanus.js](https://github.com/mozilla/minijanus.js). This is rebuilt with TypeScript first, moves to Yarn and Jest from NPM and Tape, and is adding support for plugins as needed. Currently, it adds the videoroom plugin. I would like to improve the documentation further as I've added a few more features, but haven't gotten around to it yet.
 
-**This library currently only works in Node.js** because of its dependency on the winston library. It avoids using console.log or similar operations as those are synchronous in node. Any thoughts on what I could use that would work in both the browser and node would be appreciated - work in Winston to make it not dependent on Node.js is still ongoing.
-
 ## Install
 #### NPM
 `npm install minijanus-ts`
