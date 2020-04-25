@@ -14,7 +14,6 @@ import {
   JanusSuccessCreateResponse,
   JanusErrorResponse,
 } from "./types";
-import { logger } from "./utils";
 
 export class JanusPluginHandle {
   roomId: string | undefined;
@@ -127,8 +126,13 @@ export class JanusSession {
   eventHandlers: any;
   options: any;
   keepaliveTimeout?: NodeJS.Timeout;
+  cb: ((log: { type: string; data: any }) => any) | undefined;
 
-  constructor(output: any, options?: any) {
+  constructor(
+    output: any,
+    options?: any,
+    cb?: (log: { type: string; data: any }) => any
+  ) {
     this.output = output;
     this.id = undefined;
     this.txns = {};
@@ -141,6 +145,7 @@ export class JanusSession {
       },
       options
     );
+    this.cb = cb;
   }
 
   toJSON() {
@@ -148,6 +153,23 @@ export class JanusSession {
       id: this.id,
       options: this.options,
     };
+  }
+
+  private _logOutput(type: string, args: any) {
+    switch (type) {
+      case "warn": {
+        if (this.cb) this.cb({ type: "warn", data: args });
+        else console.warn(...args);
+      }
+      case "debug": {
+        if (this.cb) this.cb({ type: "debug", data: args });
+        else console.debug(...args);
+      }
+      case "error": {
+        if (this.cb) this.cb({ type: "error", data: args });
+        else console.error(...args);
+      }
+    }
   }
 
   /** Creates this session on the Janus server and sets its ID. **/
@@ -214,7 +236,8 @@ export class JanusSession {
       this._logIncoming(signal);
     }
     if (signal.session_id != this.id) {
-      logger.warn(
+      this._logOutput(
+        "warn",
         "Incorrect session ID received in Janus signalling message: was " +
           signal.session_id +
           ", expected " +
@@ -317,7 +340,7 @@ export class JanusSession {
       " (#" +
       signal.transaction +
       "): ";
-    logger.debug("%c" + message, "color: #040", signal);
+    this._logOutput("debug", { message, signal });
   }
 
   private _logIncoming(signal: { janus: string; transaction: string }) {
@@ -329,7 +352,7 @@ export class JanusSession {
         signal.transaction +
         "): "
       : "< Incoming Janus " + (kind || "signal") + ": ";
-    logger.debug("%c" + message, "color: #004", signal);
+    this._logOutput("debug", { message, signal });
   }
 
   private _sendKeepalive() {
@@ -345,12 +368,18 @@ export class JanusSession {
     if (this.options.keepaliveMs) {
       this.keepaliveTimeout = setTimeout(() => {
         this._sendKeepalive().catch((e: JanusErrorResponse) => {
-          logger.error("Error received from keepalive: %o", e);
+          this._logOutput("error", {
+            message: "Error received from keepalive: ",
+            stack: e,
+          });
           switch (e?.error?.code) {
             // session doesn't exist
             case 458:
               this.dispose();
-              logger.error("Disposing non-existent session", e.session_id);
+              this._logOutput("error", {
+                message: "Disposing non-existent session",
+                session: e.session_id,
+              });
               break;
           }
         });
