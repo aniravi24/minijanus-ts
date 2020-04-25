@@ -346,7 +346,7 @@ export class JanusSession {
       this.keepaliveTimeout = setTimeout(() => {
         this._sendKeepalive().catch((e: JanusErrorResponse) => {
           logger.error("Error received from keepalive: %o", e);
-          switch (e.error.code) {
+          switch (e?.error?.code) {
             // session doesn't exist
             case 458:
               this.dispose();
