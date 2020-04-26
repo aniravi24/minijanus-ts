@@ -102,10 +102,10 @@ export type JanusPluginString = string;
 export type JanusEvent = string;
 
 export type JanusSessionOptions = {
-  verbose: boolean;
-  apisecret: string;
-  timeoutMs: number;
-  keepaliveMs: number;
-  keepAliveRetries: number;
-  multiSession: boolean;
+  verbose?: boolean;
+  apisecret?: string;
+  timeoutMs?: number;
+  keepaliveMs?: number;
+  keepAliveRetries?: number;
+  multiSession?: boolean;
 };

@@ -132,7 +132,7 @@ export class JanusSession {
 
   constructor(
     output: any,
-    options?: any,
+    options?: JanusSessionOptions,
     cb?: (log: { type: string; data: any }) => any
   ) {
     this.output = output;
