@@ -13,6 +13,7 @@ import {
   JanusCreateRoomSuccessResponse,
   JanusSuccessCreateResponse,
   JanusErrorResponse,
+  JanusSessionOptions,
 } from "./types";
 
 export class JanusPluginHandle {
@@ -124,8 +125,9 @@ export class JanusSession {
   id: string | undefined;
   txns: any;
   eventHandlers: any;
-  options: any;
+  options: JanusSessionOptions;
   keepaliveTimeout?: NodeJS.Timeout;
+  keepAlivesTried: number;
   cb: ((log: { type: string; data: any }) => any) | undefined;
 
   constructor(
@@ -146,6 +148,7 @@ export class JanusSession {
       options
     );
     this.cb = cb;
+    this.keepAlivesTried = 0;
   }
 
   toJSON() {
@@ -239,14 +242,16 @@ export class JanusSession {
       this._logIncoming(signal);
     }
     if (signal.session_id != this.id) {
-      this._logOutput(
-        "warn",
-        "Incorrect session ID received in Janus signalling message: was " +
-          signal.session_id +
-          ", expected " +
-          this.id +
-          "."
-      );
+      if (!this.options.multiSession) {
+        this._logOutput(
+          "warn",
+          "Incorrect session ID received in Janus signalling message: was " +
+            signal.session_id +
+            ", expected " +
+            this.id +
+            "."
+        );
+      }
     }
 
     var responseType = signal.janus;
@@ -367,6 +372,7 @@ export class JanusSession {
   }
 
   resetKeepalive() {
+    this.keepAlivesTried = 0;
     this._killKeepalive();
     if (this.options.keepaliveMs) {
       this.keepaliveTimeout = setTimeout(() => {
@@ -375,15 +381,34 @@ export class JanusSession {
             message: "Error received from keepalive: ",
             stack: e,
           });
+          if (this.options.keepAliveRetries) {
+            if (this.keepAlivesTried > this.options.keepAliveRetries) {
+              this._logOutput("error", {
+                message: "Keep alive retry limit reached. Disposing session.",
+                session: this.id,
+              });
+              this.dispose();
+              this.keepAlivesTried = 0;
+            } else {
+              this.keepAlivesTried += 1;
+              this._logOutput("warn", {
+                message: `Keep alive failed. This will retry ${
+                  this.options.keepAliveRetries - this.keepAlivesTried
+                } more times, unless the session doesn't exist anymore.`,
+                session: this.id,
+              });
+            }
+          }
           switch (e?.error?.code) {
             // session doesn't exist
-            case 458:
+            case 458: {
               this.dispose();
               this._logOutput("error", {
                 message: "Disposing non-existent session",
                 session: e.session_id,
               });
               break;
+            }
           }
         });
       }, this.options.keepaliveMs);
