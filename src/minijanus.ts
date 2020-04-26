@@ -238,20 +238,27 @@ export class JanusSession {
    * WebSocket's `message` event, or when a new datum shows up in an HTTP long-polling response.
    **/
   receive(signal: any) {
+    if (this.options.multiSession && signal.session_id != this.id) {
+      if (this.options.verbose) {
+        this._logOutput(
+          "debug",
+          `Janus multi-session enabled: ${signal.session_id} ignored as this class instance's current session id is ${this.id}.`
+        );
+      }
+      return;
+    }
     if (this.options.verbose) {
       this._logIncoming(signal);
     }
     if (signal.session_id != this.id) {
-      if (!this.options.multiSession) {
-        this._logOutput(
-          "warn",
-          "Incorrect session ID received in Janus signalling message: was " +
-            signal.session_id +
-            ", expected " +
-            this.id +
-            "."
-        );
-      }
+      this._logOutput(
+        "warn",
+        "Incorrect session ID received in Janus signalling message: was " +
+          signal.session_id +
+          ", expected " +
+          this.id +
+          "."
+      );
     }
 
     var responseType = signal.janus;
