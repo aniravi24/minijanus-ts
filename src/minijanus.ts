@@ -155,6 +155,7 @@ export class JanusSession {
     return {
       id: this.id,
       options: this.options,
+      keepAlivesTried: this.keepAlivesTried,
     };
   }
 
