@@ -59,7 +59,7 @@
     }
   },
   "dependencies": {
-    "uuid": "^7.0.3"
+    "uuid": "^8.3.2"
   },
   "private": false
 }
